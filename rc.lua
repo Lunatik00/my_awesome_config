@@ -149,20 +149,20 @@ local tasklist_buttons = gears.table.join(
                                               awful.client.focus.byidx(-1)
                                           end))
 
-local function set_wallpaper(s)
-    -- Wallpaper
-    if beautiful.wallpaper then
-        local wallpaper = beautiful.wallpaper
-        -- If wallpaper is a function, call it with the screen
-        if type(wallpaper) == "function" then
-            wallpaper = wallpaper(s)
-        end
-        gears.wallpaper.maximized(wallpaper, s, true)
-    end
-end
+-- local function set_wallpaper(s)
+--     -- Wallpaper
+--     if beautiful.wallpaper then
+--         local wallpaper = beautiful.wallpaper
+--         -- If wallpaper is a function, call it with the screen
+--         if type(wallpaper) == "function" then
+--             wallpaper = wallpaper(s)
+--         end
+--         gears.wallpaper.maximized(wallpaper, s, true)
+--     end
+-- end
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-screen.connect_signal("property::geometry", set_wallpaper)
+-- screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
@@ -281,8 +281,8 @@ globalkeys = gears.table.join(
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "Escape", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
-    -- awful.key({ modkey, "Control"   }, "Escape", function() os.execute("poweroff") end,
-    --         {description = "shutdown"}),
+    awful.key({ modkey, "Control"   }, "Escape", function() os.execute("poweroff") end,
+            {description = "shutdown"}),
 
 
     -- awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
@@ -342,8 +342,10 @@ clientkeys = gears.table.join(
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
-              {description = "close", group = "client"}),
+        -- awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
+        --           {description = "close", group = "client"}),
+        awful.key({ modkey,   }, "Escape",      function (c) c:kill()                         end,
+                {description = "close", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
               {description = "toggle floating", group = "client"}),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
@@ -475,8 +477,6 @@ awful.rules.rules = {
           "Blueman-manager",
           "Gpick",
           "Kruler",
-          "Firefox",
-          "Steam",
           "MessageWin",  -- kalarm.
           "Sxiv",
           "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
@@ -500,7 +500,9 @@ awful.rules.rules = {
     { rule_any = {type = { "normal", "dialog" }
       }, properties = { titlebars_enabled = true }
     },
-    { rule = { class = "Firefox" },
+    { rule = { class = "firefox"},
+        properties = { titlebars_enabled = false } },
+    { rule = { class = "Steam"},
         properties = { titlebars_enabled = false } },
     -- { rule = { class = "Steam" },
     --     properties = { titlebars_enabled = false } }
